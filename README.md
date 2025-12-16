@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
+# Christmas Users List 🎄
+Pet-проект: новогодний CRUD на **Next.js + Drizzle ORM + PostgreSQL** с красивым UI.
+## Стек
+- Next.js 16 (App Router)
+- TypeScript
+- Drizzle ORM + drizzle-kit
+- PostgreSQL
+- CSS (кастомный новогодний дизайн)
+## Возможности
+- Добавление пользователя (name, email)
+- Просмотр списка пользователей
+- Редактирование пользователя
+- Удаление пользователя
+- Типобезопасный доступ к базе через Drizzle
+- Миграции базы через drizzle-kit
+- Новогодний UI с анимацией снега и неоновыми градиентами
+## Запуск локально
+### 1. Установить зависимости
+npm install
+### 2. Настроить .env
+DATABASE_URL=postgres://USER:PASSWORD@localhost:5432/DB_NAME
+Для PostgreSQL по умолчанию, например:
+DATABASE_URL=postgres://postgres:password@localhost:5432/dbDrizzle
+### 3. Применить миграции
+npx drizzle-kit generate
+npx drizzle-kit migrate
+После этого в базе появится таблица `users`.
+### 4. Запустить dev-сервер
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Приложение будет доступно по адресу:
+http://localhost:3000
+## Структура проекта
+app/
+api/
+users/
+route.ts # CRUD API для users
+components/
+UserForm.tsx # UI: форма + список пользователей
+db/
+client.ts # Инициализация drizzle + postgres
+schema.ts # Схема таблицы users
+layout.tsx # Root layout
+page.tsx # Главная страница с новогодним фоном
+drizzle.config.ts # Конфиг drizzle-kit
+.env # Переменные окружения
+## Как работает Drizzle
+- `app/db/schema.ts` описывает структуру таблицы `users`.
+- `drizzle-kit generate` генерирует SQL-миграции на основе схемы.
+- `drizzle-kit migrate` применяет миграции к PostgreSQL.
+- В API `route.ts` используется типобезопасный клиент `db`:
+  - `db.select().from(users)`
+  - `db.insert(users).values(...)`
+  - `db.update(users)...`
+  - `db.delete(users)...`
+## Идеи для развития
+- Валидация через Zod/Valibot
+- Статусы (loading / error) в UI
+- Авторизация и личные списки
+- Docker для приложения и PostgreSQL
