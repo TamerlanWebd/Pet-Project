@@ -1,26 +1,465 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.christmasBody {
+  background: radial-gradient(ellipse at top, #1a2332 0%, #0a0e1a 50%, #000000 100%);
+  overflow-x: hidden;
+  position: relative;
+}
+
+.pageContainer {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  box-sizing: border-box;
+}
+
+.gradientGlow {
+  position: fixed;
+  inset: -50%;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(147, 197, 253, 0.15), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(254, 202, 202, 0.2), transparent 45%),
+    radial-gradient(circle at 10% 80%, rgba(167, 243, 208, 0.18), transparent 50%),
+    radial-gradient(circle at 90% 90%, rgba(196, 181, 253, 0.15), transparent 45%);
+  opacity: 0.6;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+.snowLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.snowLayerBack {
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.6) 1px, transparent 1px);
+  background-size: 200px 200px, 150px 150px;
+  background-position: 0 0, 50px 50px;
+  opacity: 0.3;
+  animation: snowFall 50s linear infinite;
+  filter: blur(2px);
+}
+
+.snowLayerMid {
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+  background-size: 180px 180px, 140px 140px;
+  background-position: 20px 20px, 90px 90px;
+  opacity: 0.5;
+  animation: snowFall 35s linear infinite;
+  filter: blur(1px);
+}
+
+.snowLayerFront {
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 1) 2px, transparent 2px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 1.5px, transparent 1.5px);
+  background-size: 160px 160px, 120px 120px;
+  background-position: 40px 40px, 100px 10px;
+  opacity: 0.7;
+  animation: snowFall 22s linear infinite;
+}
+
+@keyframes snowFall {
+  from {
+    transform: translate3d(0, -100px, 0);
+  }
+  to {
+    transform: translate3d(-50px, 100vh, 0);
+  }
+}
+
+.christmasCard {
+  position: relative;
+  width: 100%;
+  max-width: 950px;
+  padding: 40px 36px 32px;
+  border-radius: 28px;
+  background: 
+    linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(15, 23, 42, 0.98) 50%, rgba(17, 24, 39, 0.96) 100%);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(148, 163, 184, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(30px);
+  border: 2px solid transparent;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.christmasCard::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, 
+    #3b82f6 0%, 
+    #8b5cf6 20%, 
+    #ec4899 40%, 
+    #ef4444 60%, 
+    #f59e0b 80%, 
+    #10b981 100%
+  );
+  mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0.6;
+  animation: borderGlow 6s linear infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.9; }
+}
+
+.christmasCard::after {
+  content: '🎊 Happy New Year 2025 🎊';
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(248, 250, 252, 0.8);
+  text-shadow: 0 0 10px rgba(147, 197, 253, 0.5);
+}
+
+.userForm {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #93c5fd 50%, #dbeafe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(147, 197, 253, 0.6));
+}
+
+.inputsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 6px;
+}
+
+.inputGroup {
+  flex: 1 1 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.95);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.input {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  color: #f9fafb;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.input::placeholder {
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.input:focus {
+  border-color: #60a5fa;
+  box-shadow: 
+    0 0 0 3px rgba(96, 165, 250, 0.3),
+    0 0 30px rgba(96, 165, 250, 0.4);
+  background: rgba(15, 23, 42, 1);
+}
+
+.actionsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.primaryButton {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #022c22;
+  box-shadow:
+    0 12px 35px rgba(16, 185, 129, 0.6),
+    0 0 0 1px rgba(5, 150, 105, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.primaryButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.primaryButton:hover:not(:disabled)::before {
+  transform: translateX(100%);
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow:
+    0 18px 45px rgba(16, 185, 129, 0.8),
+    0 0 0 1px rgba(5, 150, 105, 1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    0 6px 20px rgba(16, 185, 129, 0.7),
+    0 0 0 1px rgba(5, 150, 105, 1);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.secondaryButton {
+  border-radius: 12px;
+  border: 2px solid rgba(148, 163, 184, 0.6);
+  padding: 11px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: rgba(30, 41, 59, 0.8);
+  color: rgba(226, 232, 240, 0.95);
+  transition: all 0.15s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(59, 130, 246, 0.3);
+  border-color: rgba(96, 165, 250, 0.8);
+  color: #dbeafe;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.usersList {
+  list-style: none;
+  padding: 18px 0 0;
+  margin: 0;
+  border-top: 2px dashed rgba(148, 163, 184, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.usersList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.usersList::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 10px;
+}
+
+.usersList::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 10px;
+}
+
+.usersList::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: 
+    linear-gradient(135deg, rgba(30, 58, 138, 0.3) 0%, rgba(15, 23, 42, 0.5) 100%);
+  border: 2px solid rgba(148, 163, 184, 0.3);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.userItem:hover {
+  background: 
+    linear-gradient(135deg, rgba(30, 58, 138, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f0f9ff;
+  text-shadow: 0 0 10px rgba(147, 197, 253, 0.3);
+}
+
+.userEmail {
+  font-size: 13px;
+  color: rgba(209, 213, 219, 0.9);
+}
+
+.userActions {
+  display: flex;
+  gap: 10px;
+}
+
+.editButton,
+.deleteButton {
+  border-radius: 10px;
+  border: 2px solid transparent;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.editButton::before,
+.deleteButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.editButton:hover::before,
+.deleteButton:hover::before {
+  transform: translateX(100%);
+}
+
+.editButton {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.4) 100%);
+  border-color: rgba(96, 165, 250, 0.6);
+  color: #dbeafe;
+}
+
+.editButton:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(37, 99, 235, 0.9) 100%);
+  border-color: rgba(147, 197, 253, 1);
+  color: #f0f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+}
+
+.deleteButton {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.4) 100%);
+  border-color: rgba(248, 113, 113, 0.6);
+  color: #fecaca;
+}
+
+.deleteButton:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(220, 38, 38, 0.9) 100%);
+  border-color: rgba(252, 165, 165, 1);
+  color: #fef2f2;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+}
+
+@media (max-width: 640px) {
+  .christmasCard {
+    padding: 28px 20px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .inputsRow {
+    flex-direction: column;
+  }
+
+  .userItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .userActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .christmasCard::after {
+    font-size: 9px;
+    right: 16px;
+    top: 16px;
+  }
 }

@@ -1,25 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { UserForm } from '@/app/components/UserForm'
+import { useState, useEffect } from 'react'
+import { UserForm } from './components/UserForm'
+
+type User = {
+  id: number
+  name: string
+  email: string
+}
 
 export default function Page() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
-    fetch('/api/users')
-      .then((r) => r.json())
-      .then(setUsers)
+    document.body.classList.add('christmasBody')
+    return () => {
+      document.body.classList.remove('christmasBody')
+    }
   }, [])
 
   return (
-    <main className="p-6">
-      <UserForm onAdded={() => location.reload()} />
-      <ul>
-        {users.map((u: any) => (
-          <li key={u.id}>{u.name} — {u.email}</li>
-        ))}
-      </ul>
+    <main className="pageContainer">
+      <div className="snowLayer snowLayerBack" />
+      <div className="snowLayer snowLayerMid" />
+      <div className="snowLayer snowLayerFront" />
+      <div className="gradientGlow" />
+      <UserForm onUsersChange={setUsers} />
     </main>
   )
 }
