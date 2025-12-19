@@ -1,21 +1,18 @@
-import type { ReactNode } from 'react'
-import './globals.css'
-import { Geist, Geist_Mono } from 'next/font/google'
+import type { ReactNode } from "react";
+import "./globals.css";
+import { Montserrat } from "next/font/google";
 
-const geistSans = Geist({ subsets: ['latin'] })
-const geistMono = Geist_Mono({ subsets: ['latin'] })
+const font = Montserrat({ subsets: ["latin"], weight: ["400", "700", "900"] });
 
 export const metadata = {
-  title: 'Christmas Users List',
-  description: 'Pet project with Next.js and Drizzle',
-}
+  title: "Christmas Magic 2025",
+  description: "Festive Next.js Application",
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className="antialiased">
-        {children}
-      </body>
+    <html lang="en" className={font.className} suppressHydrationWarning>
+      <body className="antialiased">{children}</body>
     </html>
-  )
+  );
 }
